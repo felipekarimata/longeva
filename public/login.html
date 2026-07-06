@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar · Longeva Advisor</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="login-body">
+  <main class="login-card">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div>
+        <h1>Longeva</h1>
+        <p class="brand-sub">Assistente do Assessor</p>
+      </div>
+    </div>
+
+    <form id="loginForm" autocomplete="off">
+      <label>
+        Usuário
+        <input type="text" id="user" name="user" autocomplete="username" required />
+      </label>
+      <label>
+        Senha
+        <input type="password" id="password" name="password" autocomplete="current-password" required />
+      </label>
+      <button type="submit" id="submitBtn">Entrar</button>
+      <p class="login-error" id="error"></p>
+    </form>
+
+    <p class="login-foot">Uso interno · Longeva Assessoria de Investimentos</p>
+  </main>
+
+  <script>
+    // Se já autenticado, vai direto para o app.
+    fetch("/api/me").then((r) => { if (r.ok) location.href = "/app"; }).catch(() => {});
+
+    const form = document.getElementById("loginForm");
+    const errEl = document.getElementById("error");
+    const btn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errEl.textContent = "";
+      btn.disabled = true;
+      btn.textContent = "Entrando…";
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user: document.getElementById("user").value,
+            password: document.getElementById("password").value,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          location.href = "/app";
+        } else {
+          errEl.textContent = data.error || "Falha no login.";
+        }
+      } catch (err) {
+        errEl.textContent = "Erro de conexão.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Entrar";
+      }
+    });
+  </script>
+</body>
+</html>

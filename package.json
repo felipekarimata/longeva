@@ -1,0 +1,21 @@
+{
+  "name": "longeva-advisor-web",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Frontend/backend web para acionar o Claude Code com o agente longeva-advisor a partir do navegador, atendendo demandas do assessor de investimentos.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "set-password": "node scripts/set-password.js",
+    "check": "node scripts/check-claude.js",
+    "bundle": "node scripts/prepare-bundle.mjs",
+    "deploy": "node scripts/deploy.mjs"
+  },
+  "dependencies": {
+    "@composio/core": "^0.13.1",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2"
+  }
+}

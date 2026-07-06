@@ -1,0 +1,21 @@
+services:
+  longeva-web:
+    build: .
+    image: longeva-advisor-web
+    container_name: longeva-advisor-web
+    ports:
+      - "127.0.0.1:8787:8787"
+    env_file:
+      - .env.docker
+    volumes:
+      - app-data:/app/data
+      - app-outputs:/app/vendor/longeva-advisor/outputs
+      - app-downloads:/app/vendor/longeva-advisor/downloads
+      - claude-home:/home/node/.claude
+    restart: unless-stopped
+
+volumes:
+  app-data:
+  app-outputs:
+  app-downloads:
+  claude-home:
